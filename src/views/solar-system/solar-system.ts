@@ -1,19 +1,21 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-import starsTexture from '@assets/img/solar-system/stars.jpg'
-import sunTexture from '@assets/img/solar-system/sun.jpg'
-import mercuryTexture from '@assets/img/solar-system/mercury.jpg'
-import saturnTexture from '@assets/img/solar-system/saturn.jpg'
-import saturnRingTexture from '@assets/img/solar-system/saturn-ring.png'
-import venusTexture from '@assets/img/solar-system/venus.jpg'
-import earthTexture from '@assets/img/solar-system/earth.jpg';
-import marsTexture from '@assets/img/solar-system/mars.jpg';
-import jupiterTexture from '@assets/img/solar-system/jupiter.jpg';
-import uranusTexture from '@assets/img/solar-system/uranus.jpg';
-import uranusRingTexture from '@assets/img/solar-system/uranus-ring.png';
-import neptuneTexture from '@assets/img/solar-system/neptune.jpg';
-import plutoTexture from '@assets/img/solar-system/pluto.jpg';
+// import starsTexture from '@/assets/img/solar-system/stars.jpg'
+import starsTexture from '@/assets/img/solar-system/stars.jpg'
+import sunTexture from '@/assets/img/solar-system/sun.jpg'
+import mercuryTexture from '@/assets/img/solar-system/mercury.jpg'
+import saturnTexture from '@/assets/img/solar-system/saturn.jpg'
+import saturnRingTexture from '@/assets/img/solar-system/saturn-ring.png'
+import venusTexture from '@/assets/img/solar-system/venus.jpg'
+import earthTexture from '@/assets/img/solar-system/earth.jpg';
+import marsTexture from '@/assets/img/solar-system/mars.jpg';
+import jupiterTexture from '@/assets/img/solar-system/jupiter.jpg';
+import uranusTexture from '@/assets/img/solar-system/uranus.jpg';
+import uranusRingTexture from '@/assets/img/solar-system/uranus-ring.png';
+import neptuneTexture from '@/assets/img/solar-system/neptune.jpg';
+import plutoTexture from '@/assets/img/solar-system/pluto.jpg';
+
 
 const renderer = new THREE.WebGLRenderer()
 
@@ -44,7 +46,13 @@ const sunMat = new THREE.MeshBasicMaterial({
 const sun = new THREE.Mesh(sunGeo, sunMat)
 scene.add(sun)
 
-function createPlanet(size, texture, position, ring) {
+interface IRing {
+  innerRadius: number,
+  outerRadius: number,
+  texture: string
+}
+
+function createPlanet(size: number, texture: string, position: number, ring?: IRing) {
   const geo = new THREE.SphereGeometry(size, 30, 30)
   const mat = new THREE.MeshStandardMaterial({
     map: textureLoader.load(texture)

@@ -1,14 +1,28 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { h, resolveComponent } from 'vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: { name: 'home' }
+    redirect: { name: 'three' }
   },
   {
-    path: '/home',
-    name: 'home',
-    component: () => import(/* webpackChunkName: "about" */ '../views/HomeView.vue')
+    path: '/three',
+    name: 'three',
+    component: { render: () => h(resolveComponent('router-view')) },
+    redirect: { name: 'globe' },
+    children: [
+      {
+        path: 'solar',
+        name: 'solar',
+        component: () => import('@/views/solar-system/SolarSystem.vue')
+      },
+      {
+        path: 'globe',
+        name: 'globe',
+        component: () => import('@/views/globe/globe.vue')
+      },
+    ]
   }
 ]
 

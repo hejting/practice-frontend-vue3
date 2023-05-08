@@ -4,7 +4,7 @@
       <Header />
     </el-header>
     <el-container height="100%">
-      <el-aside>
+      <el-aside width="200px">
         <Sidebar />
       </el-aside>
       <el-main>
@@ -23,8 +23,12 @@ import Sidebar from '@/components/Sidebar.vue'
 <style lang="scss">
 .app-container {
   .el-header {
+    --el-header-padding: 0
     background-color: #545c64;
     padding-left: 200px;
+  }
+  .el-main {
+    --el-main-padding: 0;
   }
 }
 </style>

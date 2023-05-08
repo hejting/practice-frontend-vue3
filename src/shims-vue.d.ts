@@ -4,3 +4,10 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+declare module "@/types/three"
+declare module "three-globe"
+declare module '*.json'
+declare module '*.jpg'
+declare module '*.png'
+declare module '*.svg'
