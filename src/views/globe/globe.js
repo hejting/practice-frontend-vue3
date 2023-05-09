@@ -34,7 +34,6 @@ function getData() {
   const ws = new WebSocket('ws://124.223.56.245:3000/city-ws')
   ws.onmessage = function (evt) {
     const data = JSON.parse(evt.data)
-    console.log(data)
     const map = data.data.map
     const lines = data.data.lines
     setMapAndLine(map, lines)

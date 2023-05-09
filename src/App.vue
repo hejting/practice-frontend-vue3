@@ -3,7 +3,7 @@
     <el-header>
       <Header />
     </el-header>
-    <el-container height="100%">
+    <el-container class="app-main">
       <el-aside width="200px">
         <Sidebar />
       </el-aside>
@@ -27,8 +27,12 @@ import Sidebar from '@/components/Sidebar.vue'
     background-color: #545c64;
     padding-left: 200px;
   }
+  .app-main {
+    height: calc(100vh - 60px);
+  }
   .el-main {
     --el-main-padding: 0;
+    height: 100%;
   }
 }
 </style>

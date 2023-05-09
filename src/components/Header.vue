@@ -11,8 +11,8 @@ import { menu } from '../../menu'
 import emitter from '@/utils/bus'
 
 const activeIndex = menu[0].name
-function handleSelect() {
-  emitter.emit('headerChange', activeIndex)
+function handleSelect(key: string) {
+  emitter.emit('headerChange', key)
 }
 </script>
 

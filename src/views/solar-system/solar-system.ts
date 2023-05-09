@@ -26,7 +26,7 @@ let mercury: IPlanet, saturn: IPlanet, uranus: IPlanet, venus: IPlanet, earth: I
 
 export function init(el: HTMLElement, width: number, height: number) {
   renderer = new THREE.WebGLRenderer()
-  renderer.setSize(width, height)
+  renderer.setSize(width, height, false)
   el.appendChild(renderer.domElement)
   scene = new THREE.Scene()
   camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000)
@@ -142,5 +142,5 @@ function animate() {
 export function onWindowResize(width: number, height: number) {
   camera.aspect = width / height
   camera.updateProjectionMatrix()
-  renderer.setSize(width, height)
+  renderer.setSize(width, height, false)
 }
