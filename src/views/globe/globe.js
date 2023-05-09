@@ -6,7 +6,7 @@ import countries from './custom.geo.json'
 // import lines from '../files/lines.json'
 // import map from '../files/map.json'
 
-var renderer, camera, scene, controls
+let renderer, camera, scene, controls
 
 let mouseX = 0
 let mouseY = 0
@@ -15,7 +15,7 @@ let windowHalfY
 let element
 let idName
 
-var Globe
+let Globe
 
 // const xhr = new XMLHttpRequest()
 // xhr.open('GET', 'http://127.0.0.1:3000/city')

@@ -15,11 +15,17 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'solar',
         name: 'solar',
+        meta: {
+          parent: 'three'
+        },
         component: () => import('@/views/solar-system/SolarSystem.vue')
       },
       {
         path: 'globe',
         name: 'globe',
+        meta: {
+          parent: 'three'
+        },
         component: () => import('@/views/globe/globe.vue')
       },
     ]

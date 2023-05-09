@@ -16,40 +16,77 @@ import uranusRingTexture from '@/assets/img/solar-system/uranus-ring.png';
 import neptuneTexture from '@/assets/img/solar-system/neptune.jpg';
 import plutoTexture from '@/assets/img/solar-system/pluto.jpg';
 
-
-const renderer = new THREE.WebGLRenderer()
-
-renderer.setSize(window.innerWidth, window.innerHeight)
-
-document.body.appendChild(renderer.domElement)
-
-const scene = new THREE.Scene()
-
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / innerHeight, 0.1, 1000)
-camera.position.set(-90, 140, 140)
-
-const orbit = new OrbitControls(camera, renderer.domElement)
-orbit.update()
-
-// const axesHelper = new THREE.AxesHelper(5)
-// scene.add(axesHelper)
-
-const cubeTextureLoader = new THREE.CubeTextureLoader()
-scene.background = cubeTextureLoader.load([starsTexture, starsTexture, starsTexture, starsTexture, starsTexture, starsTexture])
-
+let renderer: THREE.WebGLRenderer
+let orbit: OrbitControls
+let scene: THREE.Scene
 const textureLoader = new THREE.TextureLoader()
-// sun
-const sunGeo = new THREE.SphereGeometry(16, 30, 30)
-const sunMat = new THREE.MeshBasicMaterial({
-  map: textureLoader.load(sunTexture)
-})
-const sun = new THREE.Mesh(sunGeo, sunMat)
-scene.add(sun)
+let camera: THREE.PerspectiveCamera
+let sun: THREE.Mesh
+let mercury: IPlanet, saturn: IPlanet, uranus: IPlanet, venus: IPlanet, earth: IPlanet, mars: IPlanet, jupiter: IPlanet, neptune: IPlanet, pluto: IPlanet
+
+export function init(el: HTMLElement, width: number, height: number) {
+  renderer = new THREE.WebGLRenderer()
+  renderer.setSize(width, height)
+  el.appendChild(renderer.domElement)
+  scene = new THREE.Scene()
+  camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000)
+  camera.position.set(-90, 140, 140)
+
+  orbit = new OrbitControls(camera, renderer.domElement)
+  orbit.update()
+  // const axesHelper = new THREE.AxesHelper(5)
+  // scene.add(axesHelper)
+
+  const cubeTextureLoader = new THREE.CubeTextureLoader()
+  scene.background = cubeTextureLoader.load([starsTexture, starsTexture, starsTexture, starsTexture, starsTexture, starsTexture])
+
+  const ambientLight = new THREE.AmbientLight(0x333333)
+  scene.add(ambientLight)
+  const pointLight = new THREE.PointLight(0xffffff, 2, 300)
+  scene.add(pointLight)
+}
+
+
+export function addCelestialBody() {
+  // sun
+  const sunGeo = new THREE.SphereGeometry(16, 30, 30)
+  const sunMat = new THREE.MeshBasicMaterial({
+    map: textureLoader.load(sunTexture)
+  })
+  sun = new THREE.Mesh(sunGeo, sunMat)
+  scene.add(sun)
+  mercury = createPlanet(3.2, mercuryTexture, 28)
+  saturn = createPlanet(10, saturnTexture, 138, {
+    innerRadius: 10,
+    outerRadius: 20,
+    texture: saturnRingTexture
+  })
+  uranus = createPlanet(10, uranusTexture, 176, {
+    innerRadius: 7,
+    outerRadius: 12,
+    texture: uranusRingTexture
+  })
+  venus = createPlanet(5.8, venusTexture, 44)
+  earth = createPlanet(6, earthTexture, 62)
+  mars = createPlanet(7, marsTexture, 78)
+  jupiter = createPlanet(12, jupiterTexture, 100)
+  neptune = createPlanet(7, neptuneTexture, 200)
+  pluto = createPlanet(2.8, plutoTexture, 216)
+  renderer.setAnimationLoop(animate)
+}
+
+
+
 
 interface IRing {
   innerRadius: number,
   outerRadius: number,
   texture: string
+}
+
+interface IPlanet {
+  mesh: THREE.Mesh,
+  obj: THREE.Object3D
 }
 
 function createPlanet(size: number, texture: string, position: number, ring?: IRing) {
@@ -78,29 +115,6 @@ function createPlanet(size: number, texture: string, position: number, ring?: IR
   return { mesh, obj }
 }
 
-const mercury = createPlanet(3.2, mercuryTexture, 28)
-const saturn = createPlanet(10, saturnTexture, 138, {
-  innerRadius: 10,
-  outerRadius: 20,
-  texture: saturnRingTexture
-})
-const uranus = createPlanet(10, uranusTexture, 176, {
-  innerRadius: 7,
-  outerRadius: 12,
-  texture: uranusRingTexture
-})
-const venus = createPlanet(5.8, venusTexture, 44)
-const earth = createPlanet(6, earthTexture, 62)
-const mars = createPlanet(7, marsTexture, 78)
-const jupiter = createPlanet(12, jupiterTexture, 100)
-const neptune = createPlanet(7, neptuneTexture, 200)
-const pluto = createPlanet(2.8, plutoTexture, 216)
-
-const ambientLight = new THREE.AmbientLight(0x333333)
-scene.add(ambientLight)
-const pointLight = new THREE.PointLight(0xffffff, 2, 300)
-scene.add(pointLight)
-
 function animate() {
   sun.rotateY(0.004)
   mercury.mesh.rotateY(0.004)
@@ -125,10 +139,8 @@ function animate() {
   renderer.render(scene, camera)
 }
 
-renderer.setAnimationLoop(animate)
-
-window.addEventListener('resize', function () {
-  camera.aspect = window.innerWidth / window.innerHeight
+export function onWindowResize(width: number, height: number) {
+  camera.aspect = width / height
   camera.updateProjectionMatrix()
-  renderer.setSize(window.innerWidth, window.innerHeight)
-})
+  renderer.setSize(width, height)
+}
