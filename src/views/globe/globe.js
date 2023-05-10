@@ -8,10 +8,10 @@ import countries from './custom.geo.json'
 
 let renderer, camera, scene, controls
 
-let mouseX = 0
-let mouseY = 0
-let windowHalfX
-let windowHalfY
+// let mouseX = 0
+// let mouseY = 0
+// let windowHalfX
+// let windowHalfY
 let element
 let idName
 
@@ -30,7 +30,7 @@ let Globe
 //   }
 // }
 
-function getData() {
+export function getData() {
   const ws = new WebSocket('ws://124.223.56.245:3000/city-ws')
   ws.onmessage = function (evt) {
     const data = JSON.parse(evt.data)
@@ -40,7 +40,7 @@ function getData() {
   }
 }
 
-export default function globe(id) {
+function globe(id) {
   idName = id
   element = document.getElementById(idName)
   getData()
@@ -50,13 +50,13 @@ export default function globe(id) {
   animate()
 }
 
-function init() {
-  windowHalfX = (element.clientWidth - 1) / 2
-  windowHalfY = (element.clientHeight - 1) / 2
+export function init(el, width, height) {
+  // windowHalfX = width / 2
+  // windowHalfY = height / 2
   renderer = new THREE.WebGLRenderer({ antialias: true })
-  renderer.setPixelRatio(element.devicePixelRatio)
-  renderer.setSize(element.clientWidth - 1, element.clientHeight - 1)
-  element.appendChild(renderer.domElement)
+  renderer.setPixelRatio(el.devicePixelRatio)
+  renderer.setSize(width, height)
+  el.appendChild(renderer.domElement)
 
   scene = new THREE.Scene()
 
@@ -65,7 +65,7 @@ function init() {
   scene.background = new THREE.Color(0x040d21)
 
   camera = new THREE.PerspectiveCamera()
-  camera.aspect = (element.clientWidth - 1) / (element.clientHeight - 1)
+  camera.aspect = width / height
   camera.updateProjectionMatrix()
 
   const dLight = new THREE.DirectionalLight(0xffffff, 0.8)
@@ -101,25 +101,24 @@ function init() {
   controls.minPolarAngle = Math.PI / 3.5
   controls.maxPolarAngle = Math.PI - Math.PI / 3
 
-  window.addEventListener('resize', onWindowResize, false)
-  document.addEventListener('mousemove', onMouseMove)
+  // document.addEventListener('mousemove', onMouseMove)
+  animate()
 }
 
-function onMouseMove(event) {
-  mouseX = event.clientX - windowHalfX
-  mouseY = event.clientY - windowHalfY
-}
+// function onMouseMove(event) {
+//   mouseX = event.clientX - windowHalfX
+//   mouseY = event.clientY - windowHalfY
+// }
 
-function onWindowResize() {
-  element = document.getElementById(idName)
-  camera.aspect = (element.clientWidth - 1) / (element.clientHeight - 1)
+ export function onWindowResize(width, height) {
+  camera.aspect = width / height
   camera.updateProjectionMatrix()
-  windowHalfX = (element.clientWidth - 1) / 1.5
-  windowHalfY = (element.clientHeight - 1) / 1.5
-  renderer.setSize(element.clientWidth - 1, element.clientHeight - 1)
+  // windowHalfX = width / 1.5
+  // windowHalfY = height / 1.5
+  renderer.setSize(width, height, false)
 }
 
-function initGlobe() {
+export function initGlobe() {
   Globe = new ThreeGlobe({
     waitForGlobeReady: true,
     animateIn: true
@@ -176,11 +175,11 @@ function setMapAndLine(map, lines) {
 }
 
 function animate() {
-  camera.position.x +=
-    Math.abs(mouseX) <= windowHalfX / 2
-      ? (mouseX / 2 - camera.position.x) * 0.005
-      : 0
-  camera.position.y += (-mouseY / 2 - camera.position.y) * 0.005
+  // camera.position.x +=
+  //   Math.abs(mouseX) <= windowHalfX / 2
+  //     ? (mouseX / 2 - camera.position.x) * 0.005
+  //     : 0
+  // camera.position.y += (-mouseY / 2 - camera.position.y) * 0.005
   camera.lookAt(scene.position)
   controls.update()
   renderer.render(scene, camera)

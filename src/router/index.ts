@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { h, resolveComponent } from 'vue'
 
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',

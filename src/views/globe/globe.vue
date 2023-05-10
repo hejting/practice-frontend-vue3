@@ -1,13 +1,21 @@
 <template>
-  <div id="globe"></div>
+  <div id="globe" ref="globe"></div>
 </template>
 
 <script setup>
-import globe from './globe.js'
-import { onMounted } from 'vue'
+import { onWindowResize, getData, init, initGlobe } from './globe.js'
+import { onMounted, ref } from 'vue'
+import { useResize } from "@/composables/resize"
+
 onMounted(() => {
-  globe('globe')
+  getData()
+  init(globe.value, globe.value.clientWidth, globe.value.clientHeight)
+  initGlobe()
 })
+
+const globe = ref()
+
+useResize(onWindowResize, globe.value)
 </script>
 
 <style lang="scss" scoped>
