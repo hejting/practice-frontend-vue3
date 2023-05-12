@@ -12,7 +12,7 @@ onMounted(() => {
   addCelestialBody()
 })
 
-useResize(onWindowResize, solarRef.value)
+useResize(onWindowResize, solarRef)
 </script>
 
 <style lang="scss" scoped>

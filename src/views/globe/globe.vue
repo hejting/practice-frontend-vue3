@@ -1,5 +1,5 @@
 <template>
-  <div id="globe" ref="globe"></div>
+  <div id="globe" ref="globeRef"></div>
 </template>
 
 <script setup>
@@ -7,20 +7,26 @@ import { onWindowResize, getData, init, initGlobe } from './globe.js'
 import { onMounted, ref } from 'vue'
 import { useResize } from "@/composables/resize"
 
+const globeRef = ref()
+
 onMounted(() => {
-  getData()
-  init(globe.value, globe.value.clientWidth, globe.value.clientHeight)
+  init(globeRef.value, globeRef.value.clientWidth, globeRef.value.clientHeight)
   initGlobe()
+  getData()
 })
 
-const globe = ref()
+useResize(onWindowResize, globeRef)
 
-useResize(onWindowResize, globe.value)
 </script>
 
 <style lang="scss" scoped>
 #globe {
   width: 100%;
   height: 100%;
+
+  :deep(svg) {
+    width: 100%;
+    height: 100%
+  }
 }
 </style>

@@ -12,8 +12,6 @@ let renderer, camera, scene, controls
 // let mouseY = 0
 // let windowHalfX
 // let windowHalfY
-let element
-let idName
 
 let Globe
 
@@ -35,19 +33,10 @@ export function getData() {
   ws.onmessage = function (evt) {
     const data = JSON.parse(evt.data)
     const map = data.data.map
+
     const lines = data.data.lines
     setMapAndLine(map, lines)
   }
-}
-
-function globe(id) {
-  idName = id
-  element = document.getElementById(idName)
-  getData()
-  init()
-  initGlobe()
-  onWindowResize()
-  animate()
 }
 
 export function init(el, width, height) {
@@ -55,7 +44,7 @@ export function init(el, width, height) {
   // windowHalfY = height / 2
   renderer = new THREE.WebGLRenderer({ antialias: true })
   renderer.setPixelRatio(el.devicePixelRatio)
-  renderer.setSize(width, height)
+  renderer.setSize(width, height, false)
   el.appendChild(renderer.domElement)
 
   scene = new THREE.Scene()
@@ -155,7 +144,7 @@ function setMapAndLine(map, lines) {
       return e.status ? 0.5 : 0.3
     })
     .arcDashLength(0.6)
-    .arcDashGap(5)
+    .arcDashGap(20)
     .arcDashAnimateTime(1000)
     .arcsTransitionDuration(1000)
     .arcDashInitialGap(e => e.order * 1)
