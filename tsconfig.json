@@ -34,7 +34,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "src/views/globe/globe.js"  ],
+, "src/views/globe/globe.js", "src/utils/map.js"  ],
   "exclude": [
     "node_modules"
   ]

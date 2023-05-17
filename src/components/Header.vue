@@ -7,12 +7,21 @@
 
 <script lang="ts" setup>
 import { ElMenu, ElMenuItem } from 'element-plus'
+import { ref, inject, watchEffect } from 'vue'
 import { menu } from '../../menu'
-import emitter from '@/utils/bus'
+import { useRouter } from 'vue-router'
+import { routeMsg } from '@/utils/provide_inject'
 
-const activeIndex = menu[0].name
+const activeIndex = ref()
+const routeData = inject(routeMsg)
+
+watchEffect(() => {
+  activeIndex.value = routeData.meta.parent
+})
+
+const router = useRouter()
 function handleSelect(key: string) {
-  emitter.emit('headerChange', key)
+  router.push({ name: key })
 }
 </script>
 

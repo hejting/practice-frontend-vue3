@@ -12,6 +12,16 @@ export const menu = [
         label: 'globe'
       }
     ]
+  },
+  {
+    name: 'map',
+    label: 'map',
+    child: [
+      {
+        name: 'baiduMap',
+        label: 'baiduMap'
+      }
+    ]
   }
 ]
 

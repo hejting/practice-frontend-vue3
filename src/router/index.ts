@@ -11,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/three',
     name: 'three',
     component: { render: () => h(resolveComponent('router-view')) },
-    redirect: { name: 'globe' },
+    redirect: { name: 'solar' },
     children: [
       {
         path: 'solar',
@@ -29,6 +29,22 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () => import('@/views/globe/globe.vue')
       },
+    ]
+  },
+  {
+    path: '/map',
+    name: 'map',
+    component: { render: () => h(resolveComponent('router-view')) },
+    redirect: { name: 'baiduMap' },
+    children: [
+      {
+        path: 'baiduMap',
+        name: 'baiduMap',
+        meta: {
+          parent: 'map'
+        },
+        component: () => import('@/views/map/BaiduMap.vue')
+      }
     ]
   }
 ]

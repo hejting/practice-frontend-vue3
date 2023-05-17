@@ -10,7 +10,6 @@ import { ref, inject, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMenu, ElMenuItem } from 'element-plus'
 import { menu } from '../../menu'
-import emitter from '@/utils/bus'
 import { routeMsg } from '@/utils/provide_inject'
 
 const routeData = inject(routeMsg)
@@ -29,16 +28,6 @@ watchEffect(() => {
 
 const router = useRouter()
 
-emitter.on('headerChange', headerChange)
-
-function headerChange() {
-  // const list = menu.find(item => item.name === route.meta.parent)
-  // sidebarList.value = list?.child
-  // console.log(route.meta.parent)
-  // activeIndex.value = sidebarList.value[0].name
-  sidebarList.value = menu[0].child
-
-}
 function handleSelect(key: string) {
   router.push({ name: key })
 }
