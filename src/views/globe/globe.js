@@ -14,6 +14,7 @@ let renderer, camera, scene, controls
 // let windowHalfY
 
 let Globe
+let GlobePointAndLine
 
 // const xhr = new XMLHttpRequest()
 // xhr.open('GET', 'http://127.0.0.1:3000/city')
@@ -99,7 +100,7 @@ export function init(el, width, height) {
 //   mouseY = event.clientY - windowHalfY
 // }
 
- export function onWindowResize(width, height) {
+export function onWindowResize(width, height) {
   camera.aspect = width / height
   camera.updateProjectionMatrix()
   // windowHalfX = width / 1.5
@@ -112,13 +113,12 @@ export function initGlobe() {
     waitForGlobeReady: true,
     animateIn: true
   })
-
     .hexPolygonsData(countries.features)
     .hexPolygonResolution(3)
     .hexPolygonMargin(0.7)
     .showAtmosphere(true)
     .atmosphereColor('#3a228a')
-    .atmosphereAltitude(0.25)
+    .atmosphereAltitude(0.5)
 
   Globe.rotateY(-Math.PI * (5 / 9))
   Globe.rotateZ(-Math.PI / 6)
@@ -132,27 +132,34 @@ export function initGlobe() {
 }
 
 function setMapAndLine(map, lines) {
-  if (!Globe) return
-  Globe.arcsData(lines)
-    .arcColor(e => {
+  if (GlobePointAndLine) {
+    scene.remove(GlobePointAndLine)
+  }
+  GlobePointAndLine = new ThreeGlobe({
+    waitForGlobeReady: true
+  })
+  GlobePointAndLine.arcsData(lines)
+    .showGlobe(false)
+    .showAtmosphere(false)
+    .arcColor((e) => {
       return e.status ? '#9cff00' : '#ff4000'
     })
-    .arcAltitude(e => {
+    .arcAltitude((e) => {
       return e.arcAlt
     })
-    .arcStroke(e => {
+    .arcStroke((e) => {
       return e.status ? 0.5 : 0.3
     })
     .arcDashLength(0.6)
-    .arcDashGap(20)
+    .arcDashGap(5)
     .arcDashAnimateTime(1000)
     .arcsTransitionDuration(1000)
-    .arcDashInitialGap(e => e.order * 1)
+    .arcDashInitialGap((e) => e.order * 1)
     .labelsData(map)
     .labelColor(() => '#ffcb21')
 
     .labelDotRadius(0.3)
-    .labelSize(e => e.size)
+    .labelSize((e) => e.size)
     .labelText('city')
     .labelResolution(6)
     .labelAltitude(0.01)
@@ -161,6 +168,7 @@ function setMapAndLine(map, lines) {
     .pointsMerge(true)
     .pointAltitude(0.07)
     .pointRadius(0.05)
+  scene.add(GlobePointAndLine)
 }
 
 function animate() {
